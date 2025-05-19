@@ -537,6 +537,8 @@ const int ID_OFFSET_RIGHT = wxNewId();
 const int ID_OFFSET_UP = wxNewId();
 const int ID_OFFSET_DOWN = wxNewId();
 const int ID_GUTTER = wxNewId();
+const int ID_CLOSE = wxNewId();
+const int ID_QUIT = wxNewId();
 
 #define BMP_ARTPROV(id) wxArtProvider::GetBitmap(id, wxART_TOOLBAR)
 
@@ -601,7 +603,7 @@ public:
         toolbar->Realize();
         SetToolBar(toolbar);
 
-        wxAcceleratorEntry accels[8];
+        wxAcceleratorEntry accels[10];
         accels[0].Set(wxACCEL_NORMAL, WXK_PAGEUP, ID_PREV_PAGE);
         accels[1].Set(wxACCEL_NORMAL, WXK_PAGEDOWN, ID_NEXT_PAGE);
         accels[2].Set(wxACCEL_CTRL, (int)'=', ID_ZOOM_IN);
@@ -610,8 +612,10 @@ public:
         accels[5].Set(wxACCEL_CTRL, WXK_RIGHT, ID_OFFSET_RIGHT);
         accels[6].Set(wxACCEL_CTRL, WXK_UP, ID_OFFSET_UP);
         accels[7].Set(wxACCEL_CTRL, WXK_DOWN, ID_OFFSET_DOWN);
+        accels[8].Set(wxACCEL_CMD, (int)'W', ID_CLOSE);
+        accels[9].Set(wxACCEL_CMD, (int)'Q', ID_QUIT);
 
-        wxAcceleratorTable accel_table(8, accels);
+        wxAcceleratorTable accel_table(10, accels);
         SetAcceleratorTable(accel_table);
 
         m_gutter = new Gutter(this, ID_GUTTER);
@@ -793,6 +797,16 @@ private:
     void OnOffsetUp(wxCommandEvent&) { DoOffset(0, -1); }
     void OnOffsetDown(wxCommandEvent&) { DoOffset(0, 1); }
 
+    void OnClose(wxCommandEvent&)
+    {
+        Close();
+    }
+
+    void OnQuit(wxCommandEvent&)
+    {
+        wxTheApp->ExitMainLoop();
+    }
+
     DECLARE_EVENT_TABLE()
 
 private:
@@ -817,6 +831,8 @@ BEGIN_EVENT_TABLE(DiffFrame, wxFrame)
     EVT_TOOL     (ID_OFFSET_RIGHT, DiffFrame::OnOffsetRight)
     EVT_TOOL     (ID_OFFSET_UP,    DiffFrame::OnOffsetUp)
     EVT_TOOL     (ID_OFFSET_DOWN,  DiffFrame::OnOffsetDown)
+    EVT_MENU     (ID_CLOSE,        DiffFrame::OnClose)
+    EVT_MENU     (ID_QUIT,         DiffFrame::OnQuit)
 END_EVENT_TABLE()
 
 

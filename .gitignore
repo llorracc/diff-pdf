@@ -20,3 +20,5 @@ mingw
 *.o
 # the final binary
 diff-pdf
+# SpecStory explanation file
+.specstory/.what-is-this.md
