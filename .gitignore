@@ -20,3 +20,6 @@ mingw
 *.o
 # the final binary
 diff-pdf
+
+# CDC additions
+.specstory/
